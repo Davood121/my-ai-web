@@ -3,13 +3,19 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Project Showcase Portfolio API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: projects
+    description: Project operations
+  - name: members
+    description: Team member operations
+  - name: stats
+    description: Stats and summary operations
 paths:
   /healthz:
     get:
@@ -24,6 +30,211 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /projects:
+    get:
+      operationId: getProjects
+      tags: [projects]
+      summary: List all projects
+      description: Returns all showcase projects in order
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+    post:
+      operationId: createProject
+      tags: [projects]
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProjectBody"
+      responses:
+        "201":
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get a single project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updateProject
+      tags: [projects]
+      summary: Update a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProjectBody"
+      responses:
+        "200":
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteProject
+      tags: [projects]
+      summary: Delete a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /members:
+    get:
+      operationId: getMembers
+      tags: [members]
+      summary: List all team members
+      responses:
+        "200":
+          description: List of members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+    post:
+      operationId: createMember
+      tags: [members]
+      summary: Create a team member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMemberBody"
+      responses:
+        "201":
+          description: Created member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /members/{id}:
+    get:
+      operationId: getMember
+      tags: [members]
+      summary: Get a single member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Member
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /stats/summary:
+    get:
+      operationId: getSummary
+      tags: [stats]
+      summary: Get portfolio summary stats
+      description: Returns total counts and highlights for the portfolio
+      responses:
+        "200":
+          description: Summary statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Summary"
+
+  /stats/featured:
+    get:
+      operationId: getFeaturedProjects
+      tags: [stats]
+      summary: Get featured/highlighted projects
+      responses:
+        "200":
+          description: Featured projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +245,205 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+        avatarUrl:
+          type: ["string", "null"]
+        bio:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        linkedinUrl:
+          type: ["string", "null"]
+        websiteUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - role
+        - avatarUrl
+        - bio
+        - githubUrl
+        - linkedinUrl
+        - websiteUrl
+        - createdAt
+
+    CreateMemberBody:
+      type: object
+      properties:
+        name:
+          type: string
+        role:
+          type: string
+        avatarUrl:
+          type: ["string", "null"]
+        bio:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        linkedinUrl:
+          type: ["string", "null"]
+        websiteUrl:
+          type: ["string", "null"]
+      required:
+        - name
+        - role
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: ["string", "null"]
+        externalUrl:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [live, in_progress, archived]
+        featured:
+          type: boolean
+        sortOrder:
+          type: integer
+        memberIds:
+          type: array
+          items:
+            type: integer
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Member"
+        createdAt:
+          type: string
+      required:
+        - id
+        - title
+        - description
+        - longDescription
+        - tags
+        - imageUrl
+        - externalUrl
+        - githubUrl
+        - status
+        - featured
+        - sortOrder
+        - memberIds
+        - members
+        - createdAt
+
+    CreateProjectBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: ["string", "null"]
+        externalUrl:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [live, in_progress, archived]
+        featured:
+          type: boolean
+        sortOrder:
+          type: integer
+        memberIds:
+          type: array
+          items:
+            type: integer
+      required:
+        - title
+        - description
+        - status
+        - featured
+        - sortOrder
+
+    UpdateProjectBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        longDescription:
+          type: ["string", "null"]
+        tags:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: ["string", "null"]
+        externalUrl:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [live, in_progress, archived]
+        featured:
+          type: boolean
+        sortOrder:
+          type: integer
+        memberIds:
+          type: array
+          items:
+            type: integer
+
+    Summary:
+      type: object
+      properties:
+        totalProjects:
+          type: integer
+        totalMembers:
+          type: integer
+        liveProjects:
+          type: integer
+        inProgressProjects:
+          type: integer
+        featuredCount:
+          type: integer
+      required:
+        - totalProjects
+        - totalMembers
+        - liveProjects
+        - inProgressProjects
+        - featuredCount

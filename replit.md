@@ -15,6 +15,28 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
+- **Frontend**: React + Vite + Tailwind CSS + Framer Motion
+
+## Artifacts
+
+- **portfolio** (react-vite) — Project showcase portfolio website at `/`
+- **api-server** (express) — Backend REST API at `/api`
+
+## Portfolio Features
+
+A cinematic, dark-themed project showcase website for presenting team projects:
+
+- **Home** — Hero with animated headline, live stats (project count, team size), featured projects
+- **Projects** — "Walking path" scroll experience, each project as a cinematic chapter with animations
+- **Project Detail** — Deep-dive view with full description, contributors, tags, links
+- **Team** — Member cards with roles, bios, and social links
+- **About** — Team story and mission
+
+## Database Schema
+
+- `members` — Team members (name, role, avatar, bio, social links)
+- `projects` — Projects (title, description, tags, status, featured, sort order, links)
+- `project_members` — Junction table linking projects to members
 
 ## Key Commands
 
