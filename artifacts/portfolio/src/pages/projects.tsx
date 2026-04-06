@@ -40,7 +40,7 @@ export default function Projects() {
           The <span className="text-primary">Journey</span>
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl font-light leading-relaxed">
-          A curated exhibition of our digital products. Scroll to explore the evolution of our craft, from early experiments to award-winning platforms.
+          Every project here is something we built ourselves — scroll through the full journey and see how our work has grown.
         </p>
       </div>
 
