@@ -37,7 +37,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Live Demo](#live-demo)
+- [Demo & Preview](#demo--preview)
 - [Features](#features)
 - [Pages](#pages)
 - [Tech Stack](#tech-stack)
@@ -60,9 +60,11 @@ Projects are presented as a **cinematic scroll-driven narrative** — not a bori
 
 ---
 
-## Live Demo
+## Demo & Preview
 
-> Deploy this project on [Replit](https://replit.com) and your live URL is ready in one click.
+![ShowPath project preview](artifacts/portfolio/public/opengraph.jpg)
+
+The repository currently does not specify a public hosted demo URL. The image above is the project's preview artwork; use the setup instructions in this README to run the application locally. Replit is an optional deployment route, not the live demo itself.
 
 ---
 
